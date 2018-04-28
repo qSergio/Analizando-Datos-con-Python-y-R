@@ -32,7 +32,6 @@ class TwitterListener(StreamListener):
 try:
             twitter_stream = Stream(authentication, TwitterListener())
             twitter_stream.filter(track=['#DebateINE', '#DebateDelDebate','anaya'], async=True)
-#myStream.filter(track=['python'], async=True)
 
 except:
             pass
