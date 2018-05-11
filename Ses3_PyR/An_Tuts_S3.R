@@ -32,7 +32,7 @@ fullTw <- read.csv(archivo, header=T, skip=0, sep=',',fileEncoding = "utf-16", a
 #read.csv(file, header=F, skip=1, sep=',', nrow=1, fileEncoding = "utf-16")
 #read.csv(file, header=T, skip=0, sep=',', nrow=1, fileEncoding = "utf-16")
 
-stopwords_spanish <- read_csv("palabras_vacias.csv")
+palabras_vacias <- read_csv("palabras_vacias.csv")
 
 # Hasta este momento no se usarán aun los diccionarios de emociones y polaridad
 #get_sentiments <- read.table("dicc_subjetividad.csv" ,fileEncoding = "UTF-8" ,header = TRUE, as.is= TRUE, sep = ',')
@@ -84,7 +84,7 @@ tuits_tokenizados %>%
 nube_pal <- fullTw %>%
   unnest_tokens(word, tuit) %>%
   mutate(word_stem = wordStem(word, language = "spanish")) %>% # aquí se aplica el stemming que vimos que falla en algunos casos
-  anti_join(stopwords_spanish, by = "word") %>%
+  anti_join(palabras_vacias, by = "word") %>%
   filter(!grepl("\\.|http", word))
 
 nube_pal %>% 
@@ -101,8 +101,8 @@ bigramas <- fullTw %>%
   unnest_tokens(bigram, tuit, token = "ngrams", n = 2) %>% # aquí pueden cambiar n para usar trigramas, etc.
   filter(!grepl("\\.|http", bigram)) %>%
   separate(bigram, c("word1", "word2"), sep = " ") %>%
-  filter(!word1 %in% stopwords_spanish$word) %>%
-  filter(!word2 %in% stopwords_spanish$word)
+  filter(!word1 %in% palabras_vacias$word) %>%
+  filter(!word2 %in% palabras_vacias$word)
 
 conteo_de_bigramas <- bigramas %>%
   count(word1, word2, sort = TRUE)
