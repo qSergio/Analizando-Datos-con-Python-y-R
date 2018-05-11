@@ -59,7 +59,7 @@ tuits_tokenizados <- fullTw %>%
   filter(!str_detect(tuit, "^RT")) %>%
   mutate(text = str_replace_all(tuit, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
   unnest_tokens(word, text, token = "regex", pattern = reg_words) %>% 
-  filter(!word %in% stopwords_spanish$word,
+  filter(!word %in% palabras_vacias$word,
        str_detect(tuit, "[a-z]"))
 
 tuits_tokenizados %>%
